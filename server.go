@@ -34,9 +34,11 @@ func connectForSocks(address string) error {
 			return err
 		}
 		log.Println("Passing off to socks5")
-		err = server.ServeConn(stream)
-		if err != nil {
-			return err
-		}
+		go func() {
+			err = server.ServeConn(stream)
+			if err != nil {
+				log.Println(err)
+			}
+		}()
 	}
 }
